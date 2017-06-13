@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LocationSchema = new Schema({
-  id: Number,
+  id: String,
   name: String,
   createdAt: Date,
   updatedAt: {

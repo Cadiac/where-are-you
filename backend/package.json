@@ -25,6 +25,7 @@
     "joi": "^10.5.2",
     "lout": "^10.0.1",
     "mongoose": "^4.10.6",
+    "uuid": "^3.0.1",
     "vision": "^4.1.1"
   },
   "devDependencies": {

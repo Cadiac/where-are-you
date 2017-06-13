@@ -11,6 +11,7 @@ mongoose.Promise = Promise;
 
 const db = mongoose.connect(config.databaseUrl);
 require('./models/location');
+require('./models/user');
 
 // allow port configuration through argv
 server.connection({
