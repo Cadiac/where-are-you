@@ -2,6 +2,10 @@
   "name": "where-are-you-backend",
   "version": "0.0.1",
   "description": "Backend for where-are-you locationing service",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Cadiac/where-are-you.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,6 +24,7 @@
     "inert": "^4.2.0",
     "joi": "^10.5.2",
     "lout": "^10.0.1",
+    "mongoose": "^4.10.6",
     "vision": "^4.1.1"
   },
   "devDependencies": {

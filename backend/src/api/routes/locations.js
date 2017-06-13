@@ -14,6 +14,7 @@ module.exports.updateLocation = {
   description: 'Update current location',
   validate: {
     payload: {
+      name: Joi.string(),
       location: Joi.object({
         lat: Joi.number().required(),
         lng: Joi.number().required(),
@@ -21,7 +22,7 @@ module.exports.updateLocation = {
     },
   },
   handler(request, reply) {
-    return locationService.updateLocation(123, request.payload.location)
+    return locationService.updateLocation(123, request.payload)
       .then(reply)
       .catch(err => reply(Boom.badImplementation('Could not update new location', err)));
   },

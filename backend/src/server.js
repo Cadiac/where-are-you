@@ -5,6 +5,13 @@ const Hapi = require('hapi');
 
 const server = new Hapi.Server();
 
+// Database
+const mongoose = require('mongoose');
+mongoose.Promise = Promise;
+
+const db = mongoose.connect(config.databaseUrl);
+require('./models/location');
+
 // allow port configuration through argv
 server.connection({
   host: config.host,
