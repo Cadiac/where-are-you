@@ -11,6 +11,6 @@ module.exports.register = {
     },
   },
   handler: (request, reply) => userService.createUser(request.payload.name)
-    .then(uuid => reply(uuid).status(201))
+    .then(uuid => reply(uuid).code(201))
     .catch(err => reply(Boom.badImplementation('Could not register new user', err)))
 };

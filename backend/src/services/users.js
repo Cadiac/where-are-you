@@ -14,7 +14,9 @@ const createUser = (name) => {
     .then(user => user.id);
 }
 
+const findUserById = (id) => User.findOne({ id });
 
 module.exports = {
   createUser,
+  findUserById,
 };

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:3.4.5
+    container_name: locationdb
+    ports:
+     - "27017:27017"

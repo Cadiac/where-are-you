@@ -2,6 +2,7 @@ const Joi = require('joi');
 const Boom = require('boom');
 
 const locationService = require('../../services/locations');
+const userService = require('../../services/users');
 
 module.exports.getLocations = {
   description: 'Get list of all locations',
@@ -21,12 +22,17 @@ module.exports.updateLocation = {
       }).required()
     },
   },
-  handler(request, reply) {
-    return locationService.updateLocation(request.payload.id, request.payload.location)
+  handler: (request, reply) =>
+    userService.findUserById(request.payload.id)
+      .then(user => {
+        if (!user) {
+          return Boom.notFound();
+        }
+        return locationService.updateLocation(user, request.payload.location)
+      })
       .then(reply)
       .catch(err => {
         console.error('Error:', err);
         return reply(Boom.badImplementation('Could not update new location', err))
-      });
-  },
+      })
 };
