@@ -1,7 +1,11 @@
 .registration-row {
-    margin-top: 55vh;
+    margin-top: 40vh;
 }
 
 .registration-input {
     margin-right: 0.5em;
+}
+
+.registration-steps {
+    margin-bottom: 3em;
 }

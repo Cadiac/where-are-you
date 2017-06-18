@@ -3,6 +3,7 @@ import Layout, { Content } from 'antd/lib/layout';
 
 import MapContainer from './MapContainer';
 import Registration from './Registration';
+import MapOverlay from './MapOverlay';
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
       <Layout>
         <Content>
           <MapContainer />
+          <MapOverlay />
           <Registration
             name={this.state.name}
             onChangeName={this.onChangeName}
