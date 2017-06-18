@@ -12,6 +12,9 @@ export default class MapContainer extends Component {
         lng: 0,
       },
     };
+
+    this.updateLocation = this.updateLocation.bind(this);
+    this.handleLocationFound = this.handleLocationFound.bind(this);
   }
 
   componentDidMount() {
@@ -19,7 +22,7 @@ export default class MapContainer extends Component {
   }
 
   updateLocation() {
-    this.map.leafletElement.locate({ setView: true, maxZoom: 15 });
+    this.map.leafletElement.locate({ setView: true, maxZoom: 16 });
   }
 
   handleLocationFound(e) {
