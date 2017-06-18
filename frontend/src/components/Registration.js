@@ -7,6 +7,8 @@ import Icon from 'antd/lib/icon';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Steps, { Step } from 'antd/lib/steps';
+import Card from 'antd/lib/card';
+
 
 import './Registration.css';
 
@@ -73,10 +75,15 @@ class Registration extends Component {
 
   render() {
     return (
-      <div className="registration-row">
+      <Card className="registration-row">
         <Row type="flex" justify="center" className="registration-steps">
           <Col span={12}>
-            <Steps current={this.state.step}>
+            <h1>Missä?</h1>
+          </Col>
+        </Row>
+        <Row type="flex" justify="center" className="registration-steps">
+          <Col span={12}>
+            <Steps direction="vertical" current={this.state.step}>
               <Step title="Location" description="Allow location." />
               <Step title="Username" description="Choose username." />
               <Step title="Finished" description="All ready." />
@@ -89,7 +96,7 @@ class Registration extends Component {
           onChangeName={this.props.onChangeName}
           onNext={this.nextStep}
         />
-      </div>
+      </Card>
     );
   }
 }
