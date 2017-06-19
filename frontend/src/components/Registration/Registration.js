@@ -2,49 +2,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'antd/lib/button';
-import Input from 'antd/lib/input';
-import Icon from 'antd/lib/icon';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import Steps, { Step } from 'antd/lib/steps';
 import Card from 'antd/lib/card';
 
+import Steps, { Step } from 'antd/lib/steps';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 
 import './Registration.css';
+
+import RegistrationForm from './RegistrationForm';
 
 const RegistrationContent = (props) => {
   switch (props.step) {
     case 0:
       return (
-        <Row type="flex" justify="center" align="middle" className="steps-content">
-          <Col>
-            <Button type="primary" size="large" onClick={props.onNext}>
-              Next
-            </Button>
-          </Col>
-        </Row>
+        <div>
+          <Button type="primary" size="large" onClick={props.onNext}>
+            Next
+          </Button>
+        </div>
       );
     case 1:
       return (
-        <Row type="flex" justify="center" align="middle" className="steps-content">
-          <Col className="registration-input">
-            <Input
-              size="large"
-              placeholder="Username"
-              prefix={<Icon type="user" />}
-              value={props.name}
-              onChange={props.onChangeName}
-            />
-          </Col>
-          <Col>
-            <Button type="primary" size="large" onClick={props.onNext}>
-              Next
-            </Button>
-          </Col>
-        </Row>
+        <div>
+          <RegistrationForm nextStep={props.onNext} changeName={props.onChangeName} />
+        </div>
       );
     case 2:
-      return null;
+      return (
+        <div>
+          <h1>Welcome, {props.name}</h1>
+        </div>
+      );
     default:
       return null;
   }
@@ -53,8 +42,8 @@ const RegistrationContent = (props) => {
 RegistrationContent.propTypes = {
   step: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  onChangeName: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
+  onChangeName: PropTypes.func.isRequired,
 };
 
 class Registration extends Component {
@@ -65,6 +54,13 @@ class Registration extends Component {
     };
 
     this.nextStep = this.nextStep.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If at first step and location hasn't been found yet
+    if (this.state.step === 0 && nextProps.hasLocation && !this.props.hasLocation) {
+      this.nextStep();
+    }
   }
 
   nextStep() {
@@ -82,20 +78,22 @@ class Registration extends Component {
           </Col>
         </Row>
         <Row type="flex" justify="center" className="registration-steps">
-          <Col span={12}>
+          <Col span={6}>
             <Steps direction="vertical" current={this.state.step}>
               <Step title="Location" description="Allow location." />
               <Step title="Username" description="Choose username." />
               <Step title="Finished" description="All ready." />
             </Steps>
           </Col>
+          <Col span={6}>
+            <RegistrationContent
+              step={this.state.step}
+              name={this.props.name}
+              onChangeName={this.props.handleChangeName}
+              onNext={this.nextStep}
+            />
+          </Col>
         </Row>
-        <RegistrationContent
-          step={this.state.step}
-          name={this.props.name}
-          onChangeName={this.props.onChangeName}
-          onNext={this.nextStep}
-        />
       </Card>
     );
   }
@@ -103,7 +101,8 @@ class Registration extends Component {
 
 Registration.propTypes = {
   name: PropTypes.string.isRequired,
-  onChangeName: PropTypes.func.isRequired,
+  handleChangeName: PropTypes.func.isRequired,
+  hasLocation: PropTypes.bool.isRequired,
 };
 
 export default Registration;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import './MapContainer.css';
@@ -6,15 +7,8 @@ import './MapContainer.css';
 export default class MapContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      location: {
-        lat: 0,
-        lng: 0,
-      },
-    };
 
     this.updateLocation = this.updateLocation.bind(this);
-    this.handleLocationFound = this.handleLocationFound.bind(this);
   }
 
   componentDidMount() {
@@ -25,25 +19,18 @@ export default class MapContainer extends Component {
     this.map.leafletElement.locate({ setView: true, maxZoom: 16 });
   }
 
-  handleLocationFound(e) {
-    this.setState({
-      hasLocation: true,
-      location: e.latlng,
-    });
-  }
-
   render() {
     return (
       <Map
         className="map-container"
-        center={this.state.location}
-        onLocationfound={this.handleLocationFound}
+        center={this.props.location}
+        onLocationfound={this.props.handleLocationFound}
         ref={(map) => { this.map = map; }}
       >
         <TileLayer
           url="https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2FkaWFjIiwiYSI6ImNqM3JkNWZxbzAwNXIyd214aTFsdWZocGwifQ._Ar_1ePckcti9A_GIZHP6Q"
         />
-        <Marker position={this.state.location}>
+        <Marker position={this.props.location}>
           <Popup>
             You are here
           </Popup>
@@ -52,3 +39,11 @@ export default class MapContainer extends Component {
     );
   }
 }
+
+MapContainer.propTypes = {
+  location: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+  }).isRequired,
+  handleLocationFound: PropTypes.func.isRequired,
+};
