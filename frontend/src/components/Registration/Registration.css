@@ -1,5 +1,9 @@
-.registration-row {
+.registration-card {
     margin-top: 30vh;
+}
+
+.registration-card h1 {
+    margin-bottom: 1em;
 }
 
 .registration-input {
@@ -8,4 +12,19 @@
 
 .registration-steps {
     margin-bottom: 3em;
+}
+
+.registration-column {
+    margin-bottom: 2em;
+}
+
+.registration-content {
+    margin-top: 5em;
+}
+
+.registration-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
 }

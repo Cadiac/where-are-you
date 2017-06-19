@@ -15,10 +15,12 @@ class App extends Component {
         lat: 0,
         lng: 0,
       },
+      hasRegistration: false,
     };
 
     this.onChangeName = this.onChangeName.bind(this);
     this.onLocationFound = this.onLocationFound.bind(this);
+    this.onEndRegistration = this.onEndRegistration.bind(this);
   }
 
   onLocationFound(e) {
@@ -32,6 +34,12 @@ class App extends Component {
     this.setState({ name });
   }
 
+  onEndRegistration() {
+    this.setState({
+      hasRegistration: true,
+    });
+  }
+
   render() {
     return (
       <Layout>
@@ -40,12 +48,16 @@ class App extends Component {
             handleLocationFound={this.onLocationFound}
             location={this.state.location}
           />
-          <MapOverlay />
-          <Registration
-            name={this.state.name}
-            handleChangeName={this.onChangeName}
-            hasLocation={this.state.hasLocation}
-          />
+          {!this.state.hasRegistration && [
+            <MapOverlay key="overlay" />,
+            <Registration
+              key="registration"
+              name={this.state.name}
+              hasLocation={this.state.hasLocation}
+              handleChangeName={this.onChangeName}
+              handleEndRegistration={this.onEndRegistration}
+            />,
+          ]}
         </Content>
       </Layout>
     );

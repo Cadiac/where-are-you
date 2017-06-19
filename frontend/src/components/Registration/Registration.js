@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
+import Spin from 'antd/lib/spin';
+import Button from 'antd/lib/button';
 
 import Steps, { Step } from 'antd/lib/steps';
 import Row from 'antd/lib/row';
@@ -16,22 +17,24 @@ const RegistrationContent = (props) => {
   switch (props.step) {
     case 0:
       return (
-        <div>
-          <Button type="primary" size="large" onClick={props.onNext}>
-            Next
-          </Button>
+        <div className="registration-container">
+          <h3>Finding your location...</h3>
+          <Spin spinning={!props.hasLocation} />
         </div>
       );
     case 1:
       return (
-        <div>
-          <RegistrationForm nextStep={props.onNext} changeName={props.onChangeName} />
+        <div className="registration-container">
+          <RegistrationForm nextStep={props.nextStep} changeName={props.changeName} />
         </div>
       );
     case 2:
       return (
-        <div>
-          <h1>Welcome, {props.name}</h1>
+        <div className="registration-container">
+          <h2>Welcome, {props.name}</h2>
+          <Button type="primary" size="large" onClick={props.endRegistration}>
+            Begin
+          </Button>
         </div>
       );
     default:
@@ -42,8 +45,10 @@ const RegistrationContent = (props) => {
 RegistrationContent.propTypes = {
   step: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  onNext: PropTypes.func.isRequired,
-  onChangeName: PropTypes.func.isRequired,
+  hasLocation: PropTypes.bool.isRequired,
+  nextStep: PropTypes.func.isRequired,
+  changeName: PropTypes.func.isRequired,
+  endRegistration: PropTypes.func.isRequired,
 };
 
 class Registration extends Component {
@@ -71,38 +76,41 @@ class Registration extends Component {
 
   render() {
     return (
-      <Card className="registration-row">
-        <Row type="flex" justify="center" className="registration-steps">
-          <Col span={12}>
-            <h1>Missä?</h1>
-          </Col>
-        </Row>
-        <Row type="flex" justify="center" className="registration-steps">
-          <Col span={6}>
-            <Steps direction="vertical" current={this.state.step}>
-              <Step title="Location" description="Allow location." />
-              <Step title="Username" description="Choose username." />
-              <Step title="Finished" description="All ready." />
-            </Steps>
-          </Col>
-          <Col span={6}>
-            <RegistrationContent
-              step={this.state.step}
-              name={this.props.name}
-              onChangeName={this.props.handleChangeName}
-              onNext={this.nextStep}
-            />
-          </Col>
-        </Row>
-      </Card>
+
+      <Row type="flex" justify="center">
+        <Col xs={24} sm={20} md={16} lg={12}>
+          <Card title="Missä?" className="registration-card">
+            <Row type="flex" justify="space-around">
+              <Col xs={24} sm={6} md={6} lg={6} className="registration-column">
+                <Steps direction="vertical" current={this.state.step} className="registration-steps">
+                  <Step title="Location" description="Allow location." />
+                  <Step title="Username" description="Choose username." />
+                  <Step title="Finished" description="All ready." />
+                </Steps>
+              </Col>
+              <Col xs={24} sm={12} md={12} lg={12} className="registration-column">
+                <RegistrationContent
+                  step={this.state.step}
+                  name={this.props.name}
+                  nextStep={this.nextStep}
+                  changeName={this.props.handleChangeName}
+                  endRegistration={this.props.handleEndRegistration}
+                  hasLocation={this.props.hasLocation}
+                />
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
 
 Registration.propTypes = {
   name: PropTypes.string.isRequired,
-  handleChangeName: PropTypes.func.isRequired,
   hasLocation: PropTypes.bool.isRequired,
+  handleChangeName: PropTypes.func.isRequired,
+  handleEndRegistration: PropTypes.func.isRequired,
 };
 
 export default Registration;

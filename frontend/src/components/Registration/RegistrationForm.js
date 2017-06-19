@@ -23,7 +23,6 @@ class RegistrationForm extends Component {
       if (!err) {
         this.props.changeName(values.username);
         this.props.nextStep();
-        console.log('Received values of form: ', values);
       }
     });
   }
