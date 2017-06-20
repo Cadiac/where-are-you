@@ -7,7 +7,6 @@ import './MapContainer.css';
 export default class MapContainer extends Component {
   constructor(props) {
     super(props);
-
     this.updateLocation = this.updateLocation.bind(this);
   }
 
@@ -32,9 +31,16 @@ export default class MapContainer extends Component {
         />
         <Marker position={this.props.location}>
           <Popup>
-            You are here
+            <span>You are here</span>
           </Popup>
         </Marker>
+        {this.props.people.map(person => (
+          <Marker key={person._id} position={person.location}>
+            <Popup>
+              <span>{person.name}</span>
+            </Popup>
+          </Marker>
+        ))}
       </Map>
     );
   }
@@ -46,4 +52,11 @@ MapContainer.propTypes = {
     lng: PropTypes.number.isRequired,
   }).isRequired,
   handleLocationFound: PropTypes.func.isRequired,
+  people: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
+  })).isRequired,
 };

@@ -5,6 +5,8 @@ import MapContainer from '../Map/MapContainer';
 import MapOverlay from '../Map/MapOverlay';
 import Registration from '../Registration/Registration';
 
+import { registerUser, updateLocation, getPeopleLocations } from '../../utils/api';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,8 @@ class App extends Component {
         lng: 0,
       },
       hasRegistration: false,
+      people: [],
+      userId: null,
     };
 
     this.onChangeName = this.onChangeName.bind(this);
@@ -23,7 +27,18 @@ class App extends Component {
     this.onEndRegistration = this.onEndRegistration.bind(this);
   }
 
+  componentDidMount() {
+    getPeopleLocations()
+      .then(response => response.data)
+      .then((people) => {
+        this.setState({
+          people,
+        });
+      });
+  }
+
   onLocationFound(e) {
+    console.log("foobar");
     this.setState({
       hasLocation: true,
       location: e.latlng,
@@ -32,12 +47,16 @@ class App extends Component {
 
   onChangeName(name) {
     this.setState({ name });
+    registerUser(name)
+      .then(response => response.data)
+      .then(userId => this.setState({ userId }));
   }
 
   onEndRegistration() {
     this.setState({
       hasRegistration: true,
     });
+    updateLocation(this.state.userId, this.state.location);
   }
 
   render() {
@@ -47,6 +66,7 @@ class App extends Component {
           <MapContainer
             handleLocationFound={this.onLocationFound}
             location={this.state.location}
+            people={this.state.people}
           />
           {!this.state.hasRegistration && [
             <MapOverlay key="overlay" />,

@@ -15,7 +15,10 @@ export const updateLocation = (id, location) => api.put('locations/me', {
   location,
 });
 
+export const getPeopleLocations = () => api.get('locations');
+
 export default {
   registerUser,
   updateLocation,
+  getPeopleLocations,
 };
