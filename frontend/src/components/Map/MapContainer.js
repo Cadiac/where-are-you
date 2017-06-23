@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import moment from 'moment';
+
+import config from '../../utils/config';
 
 import './MapContainer.css';
 
@@ -27,7 +30,8 @@ export default class MapContainer extends Component {
         ref={(map) => { this.map = map; }}
       >
         <TileLayer
-          url="https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2FkaWFjIiwiYSI6ImNqM3JkNWZxbzAwNXIyd214aTFsdWZocGwifQ._Ar_1ePckcti9A_GIZHP6Q"
+          url={`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=${config.mapboxToken}`}
+          attribution='© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
         <Marker position={this.props.location}>
           <Popup>
@@ -37,7 +41,10 @@ export default class MapContainer extends Component {
         {this.props.people.map(person => (
           <Marker key={person._id} position={person.location}>
             <Popup>
-              <span>{person.name}</span>
+              <div>
+                <h3>{person.name}</h3>
+                <span>Last seen: {moment(person.updatedAt).fromNow()}</span>
+              </div>
             </Popup>
           </Marker>
         ))}

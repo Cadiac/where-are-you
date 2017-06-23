@@ -38,7 +38,6 @@ class App extends Component {
   }
 
   onLocationFound(e) {
-    console.log("foobar");
     this.setState({
       hasLocation: true,
       location: e.latlng,
